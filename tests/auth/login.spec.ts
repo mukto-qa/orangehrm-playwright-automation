@@ -1,4 +1,4 @@
-import { test } from "../fixtures/pom-fixtures";
+import { test } from "../../fixtures/pom-fixtures";
 
 
 test("Valid login", async({page, loginPage}) => {
