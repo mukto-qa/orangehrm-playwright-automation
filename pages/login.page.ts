@@ -1,14 +1,17 @@
 import { Locator, Page } from "@playwright/test";
+import { ENV } from "../config/env";
 
 
 export class LoginPage {
     readonly page:Page
+    readonly loginHeader: Locator;
     readonly usernameInputField: Locator;
     readonly passwordInputField: Locator;
     readonly loginButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.loginHeader = page.getByRole('heading', { name: 'Login' });
         this.usernameInputField = page.getByRole('textbox', { name: 'Username' });
         this.passwordInputField = page.getByRole('textbox', { name: 'Password' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
@@ -17,8 +20,8 @@ export class LoginPage {
     /**
      * Navigates to the login page and waits for the form to be visible.
      */
-    async nagivateToLoginPage(): Promise<void> {
-        await this.page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+    async gotoLoginUrl(): Promise<void> {
+        await this.page.goto(ENV.LOGIN_URL);
     }
 
     /**
