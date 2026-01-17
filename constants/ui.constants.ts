@@ -1,4 +1,4 @@
-export const LOGIN_PAGE = {
+export const LOGIN_PAGE_DATA = {
   HEADER_TEXT: "Login",
   ERROR_MESSAGES: {
     INVALID_CREDENTIALS: "Invalid credentials",
@@ -7,6 +7,6 @@ export const LOGIN_PAGE = {
   },
 } as const;
 
-export const DASHBOARD_PAGE = {
+export const DASHBOARD_PAGE_DATA = {
   HEADER_TEXT: "Dashboard",
 } as const;
