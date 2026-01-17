@@ -13,7 +13,7 @@ function getEnv(name: string): string {
 export const ENV = {
   BASE_URL: getEnv("BASE_URL"),
   LOGIN_URL: getEnv("LOGIN_URL"),
-  USERNAME: getEnv("USERNAME"),
-  PASSWORD: getEnv("PASSWORD"),
+  USERNAME: getEnv("ORANGE_USERNAME"),
+  PASSWORD: getEnv("ORANGE_PASSWORD"),
   STORAGE_STATE_PATH: ".auth/admin.json",
 };
