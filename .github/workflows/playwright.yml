@@ -6,6 +6,12 @@ on:
     branches: [ main, master ]
 jobs:
   test:
+    environment: qa
+    env:
+      BASE_URL: ${{ vars.BASE_URL }},
+      LOGIN_URL: ${{vars.LOGIN_URL}},
+      USERNAME: ${{ secrets.USERNAME }},
+      PASSWORD: ${{secrets.PASSWORD}}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
