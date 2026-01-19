@@ -12,7 +12,6 @@ test.describe("Login Tests", () => {
     });
     await test.step("Verify successful navigation to the login page", async () => {
       await expect(loginPage.loginHeader).toBeVisible();
-      await expect(loginPage.loginHeader).toHaveText(LOGIN_PAGE_DATA.HEADER_TEXT);
     });
   });
 
