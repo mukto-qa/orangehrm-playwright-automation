@@ -9,6 +9,8 @@ export class LoginPage {
     readonly passwordInputField: Locator;
     readonly loginButton: Locator;
     readonly invalidCredErrorMessage: Locator;
+    readonly usernameRequiredError: Locator;
+    readonly passwordRequiredError: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -17,6 +19,8 @@ export class LoginPage {
         this.passwordInputField = page.getByRole('textbox', { name: 'Password' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
         this.invalidCredErrorMessage = page.getByText('Invalid credentials');
+        this.usernameRequiredError = this.usernameInputField.locator('xpath=ancestor::div[contains(@class,"oxd-input-group")]').locator('.oxd-input-field-error-message');
+        this.passwordRequiredError = this.passwordInputField.locator('xpath=ancestor::div[contains(@class,"oxd-input-group")]').locator('.oxd-input-field-error-message');
     }
 
     /**
