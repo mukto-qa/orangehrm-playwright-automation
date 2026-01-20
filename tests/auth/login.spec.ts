@@ -1,28 +1,17 @@
-import { expect, test } from "../../fixtures/base.fixture";
+import { test, expect } from "../../fixtures/base.fixture";
 import { ENV } from "../../config/env";
 import {
-  DASHBOARD_PAGE_DATA,
-  LOGIN_PAGE_DATA,
+  DASHBOARD_PAGE_CONSTANTS,
+  LOGIN_PAGE_CONSTANTS,
 } from "../../constants/ui.constants";
 import loginData from "../../test-data/login-data.json";
-import { ROUTES } from "../../constants/routes.constants";
 
 type InvalidLoginScenario = {
   title: string;
   username: string;
   password: string;
   tag: string;
-};
-
-type EmptyFieldScenario = {
-  title: string;
-  username: string;
-  password: string;
-  expected: {
-    usernameError: boolean;
-    passwordError: boolean;
-  };
-  tag: string;
+  checkNoSystemError?: boolean; 
 };
 
 const invalidLoginScenarios: InvalidLoginScenario[] = [
@@ -44,7 +33,31 @@ const invalidLoginScenarios: InvalidLoginScenario[] = [
     password: loginData.invalidCredentials.password,
     tag: "@regression",
   },
+  {
+    title: "TC_AUTH_01_12 - Verify case sensitivity of password",
+    username: ENV.USERNAME,
+    password: ENV.PASSWORD.toUpperCase(),
+    tag: "@regression",
+  },
+  {
+    title: "TC_AUTH_01_13 - Verify SQL injection in username",
+    username: loginData.sqlInjectionData.username,
+    password: ENV.PASSWORD,
+    tag: "@Critical_Path",
+    checkNoSystemError: true,
+  },
 ];
+
+type EmptyFieldScenario = {
+  title: string;
+  username: string;
+  password: string;
+  expected: {
+    usernameError: boolean;
+    passwordError: boolean;
+  };
+  tag: string;
+};
 
 const emptyFieldScenarios: EmptyFieldScenario[] = [
   {
@@ -95,33 +108,41 @@ test.describe("TS_AUTH_01 - Validate the working of Login functionality", () => 
     async ({ loginPage, dashboardPage }) => {
       await test.step("Submit login form with valid credentials", async () => {
         await loginPage.login(ENV.USERNAME, ENV.PASSWORD);
-        await loginPage.page.waitForURL(ROUTES.DASHBOARD);
       });
       await test.step("Verify redirection to Dashboard and header content", async () => {
         await expect(dashboardPage.header.headerTitle).toBeVisible();
-        await expect(dashboardPage.header.headerTitle).toHaveText(
-          DASHBOARD_PAGE_DATA.HEADER_TEXT,
-        );
+        await expect(dashboardPage.header.headerTitle).toHaveText(DASHBOARD_PAGE_CONSTANTS.HEADER_TEXT);
       });
     },
   );
 
   for (const scenario of invalidLoginScenarios) {
     test(scenario.title, { tag: scenario.tag }, async ({ loginPage }) => {
-      await test.step("Attempt login with invalid credentials", async () => {
+      await test.step("Attempt login with scenario data", async () => {
         await loginPage.login(scenario.username, scenario.password);
-        await loginPage.page.waitForURL(ROUTES.LOGIN);
       });
 
-      await test.step("Verify error message and user remains on Login page", async () => {
+      await test.step("Verify login fails with Invalid credentials error", async () => {
         await expect(loginPage.invalidCredErrorMessage).toBeVisible();
         await expect(loginPage.invalidCredErrorMessage).toHaveText(
-          LOGIN_PAGE_DATA.ERROR_MESSAGES.INVALID_CREDENTIALS,
+          LOGIN_PAGE_CONSTANTS.ERROR_MESSAGES.INVALID_CREDENTIALS,
         );
         await expect(loginPage.loginHeader).toBeVisible();
       });
+
+      if (scenario.checkNoSystemError) {
+        await test.step("Verify no SQL/system errors are exposed", async () => {
+          const sqlError = await loginPage.page.locator("text=SQL").count();
+          const exceptionError = await loginPage.page.locator("text=exception").count();
+          const syntaxError = await loginPage.page.locator("text=syntax").count();
+
+          expect(sqlError).toBe(0);
+          expect(exceptionError).toBe(0);
+          expect(syntaxError).toBe(0);
+        });
+      }
     });
-  };
+  }
 
   for (const scenario of emptyFieldScenarios) {
     test(scenario.title, { tag: scenario.tag }, async ({ loginPage }) => {
@@ -139,5 +160,5 @@ test.describe("TS_AUTH_01 - Validate the working of Login functionality", () => 
           : await expect(loginPage.passwordRequiredError).toBeHidden();
       });
     });
-  };
+  }
 });
