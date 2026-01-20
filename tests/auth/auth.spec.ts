@@ -11,7 +11,7 @@ type InvalidLoginScenario = {
   username: string;
   password: string;
   tag: string;
-  checkNoSystemError?: boolean; 
+  checkNoSystemError?: boolean;
 };
 
 const invalidLoginScenarios: InvalidLoginScenario[] = [
@@ -111,7 +111,9 @@ test.describe("TS_AUTH_01 - Validate the working of Login functionality", () => 
       });
       await test.step("Verify redirection to Dashboard and header content", async () => {
         await expect(dashboardPage.header.headerTitle).toBeVisible();
-        await expect(dashboardPage.header.headerTitle).toHaveText(DASHBOARD_PAGE_CONSTANTS.HEADER_TEXT);
+        await expect(dashboardPage.header.headerTitle).toHaveText(
+          DASHBOARD_PAGE_CONSTANTS.HEADER_TEXT,
+        );
       });
     },
   );
@@ -133,8 +135,12 @@ test.describe("TS_AUTH_01 - Validate the working of Login functionality", () => 
       if (scenario.checkNoSystemError) {
         await test.step("Verify no SQL/system errors are exposed", async () => {
           const sqlError = await loginPage.page.locator("text=SQL").count();
-          const exceptionError = await loginPage.page.locator("text=exception").count();
-          const syntaxError = await loginPage.page.locator("text=syntax").count();
+          const exceptionError = await loginPage.page
+            .locator("text=exception")
+            .count();
+          const syntaxError = await loginPage.page
+            .locator("text=syntax")
+            .count();
 
           expect(sqlError).toBe(0);
           expect(exceptionError).toBe(0);
@@ -142,7 +148,7 @@ test.describe("TS_AUTH_01 - Validate the working of Login functionality", () => 
         });
       }
     });
-  }
+  };
 
   for (const scenario of emptyFieldScenarios) {
     test(scenario.title, { tag: scenario.tag }, async ({ loginPage }) => {
@@ -160,5 +166,5 @@ test.describe("TS_AUTH_01 - Validate the working of Login functionality", () => 
           : await expect(loginPage.passwordRequiredError).toBeHidden();
       });
     });
-  }
+  };
 });
