@@ -12,7 +12,7 @@ type AuthFixtures = {
 export const test = base.extend<AuthFixtures>({
   page: async ({ browser }, use) => {
     const context = await browser.newContext({
-      storageState: ENV.STORAGE_STATE_PATH,
+      storageState: ".auth/admin.json",
     });
     const page = await context.newPage();
     await use(page);

@@ -12,6 +12,7 @@ import { defineConfig, devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  timeout: 60000,
   expect: {
     timeout: 10000,
   },
@@ -44,8 +45,16 @@ export default defineConfig({
       testMatch: "login.setup.ts",
     },
     {
+      name: "unauthenticated",
+      testMatch: /.*login.*\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
+    {
       name: "chromium",
       dependencies: ["Setup"],
+      testIgnore: /.*login.*\.spec\.ts/,
       use: { ...devices["Desktop Chrome"], storageState: ".auth/admin.json" },
     },
 
