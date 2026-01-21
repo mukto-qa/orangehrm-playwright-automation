@@ -1,5 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 import { ENV } from "../config/env";
+import { ROUTES } from "../constants/routes.constants";
 
 
 export class LoginPage {
@@ -27,7 +28,7 @@ export class LoginPage {
      * Navigates to the login page and waits for the form to be visible.
      */
     async gotoLoginUrl(): Promise<void> {
-        await this.page.goto(ENV.LOGIN_URL);
+        await this.page.goto(`${ENV.BASE_URL}${ROUTES.LOGIN}`);
     }
 
     /**
