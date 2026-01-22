@@ -1,9 +1,0 @@
-{
-    "invalidCredentials": {
-        "username": "anyuser",
-        "password": "12345678"
-    },
-    "sqlInjectionData": {
-        "username": "' OR 1=1 --"
-    }
-}

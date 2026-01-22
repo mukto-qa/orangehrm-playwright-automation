@@ -15,7 +15,7 @@ export class LoginPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.loginHeader = page.getByRole('heading', { name: 'Login' });
+        this.loginHeader = page.locator(".orangehrm-login-title");
         this.usernameInputField = page.getByRole('textbox', { name: 'Username' });
         this.passwordInputField = page.getByRole('textbox', { name: 'Password' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
@@ -29,6 +29,7 @@ export class LoginPage {
      */
     async gotoLoginUrl(): Promise<void> {
         await this.page.goto(`${ENV.BASE_URL}${ROUTES.LOGIN}`);
+        await this.page.waitForURL(`${ENV.BASE_URL}${ROUTES.LOGIN}`);
     }
 
     /**

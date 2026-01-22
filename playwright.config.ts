@@ -31,6 +31,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: ENV.BASE_URL,
+    headless: false,
 
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -42,19 +43,11 @@ export default defineConfig({
   projects: [
     {
       name: "Setup",
-      testMatch: "login.setup.ts",
-    },
-    {
-      name: "unauthenticated",
-      testMatch: /.*login.*\.spec\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-      },
+      testMatch: /.*\.setup\.ts/,
     },
     {
       name: "chromium",
       dependencies: ["Setup"],
-      testIgnore: /.*login.*\.spec\.ts/,
       use: { ...devices["Desktop Chrome"], storageState: ".auth/admin.json" },
     },
 
