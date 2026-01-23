@@ -1,3 +1,3 @@
 export enum UserManagementItem {
-  USERS = "USERS",
+  USERS = "Users",
 }
