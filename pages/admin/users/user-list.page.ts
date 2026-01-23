@@ -1,7 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import { HeaderComponent } from "../../components/header.component";
 import { SidebarComponent } from "../../components/sidebar.components";
-import { AdminSubMenuComponent } from "../components/admin.submenu.component";
+import { AdminSubMenuComponent } from "../components/admin-menu.component";
 
 export class UserListPage {
   readonly page: Page;

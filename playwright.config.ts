@@ -31,6 +31,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: ENV.BASE_URL,
+    headless: false,
 
     screenshot: "only-on-failure",
     video: "retain-on-failure",

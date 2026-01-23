@@ -3,6 +3,7 @@ import { SidebarMenu } from "../../domain/navigation/sidebar-menu.enums";
 import { DASHBOARD_PAGE_CONSTANTS } from "../../constants/pages/dashboard.page.constants";
 import { USER_LIST_PAGE_CONSTANTS } from "../../constants/pages/user-list.page.constants";
 import { ADD_USER_PAGE_CONSTANTS } from "../../constants/pages/add-user.page.constants";
+import { JobMenuItem } from "../../domain/admin/sub-menu.enums";
 
 test.describe("TS_ADMIN_00 - Admin Navigation", () => {
   test(
@@ -35,7 +36,7 @@ test.describe("TS_ADMIN_00 - Admin Navigation", () => {
       });
 
       await test.step("Verify Add User page is displayed", async () => {
-        await expect(addUserPage.formHeader).toHaveText(
+        await expect(addUserPage.pageHeader.title).toHaveText(
           ADD_USER_PAGE_CONSTANTS.FORM_HEADER,
         );
       });
@@ -49,6 +50,8 @@ test.describe("TS_ADMIN_00 - Admin Navigation", () => {
   }) => {
     await dashboardPage.gotoDashboardUrl();
     await userListPage.sidebar.navigateTo(SidebarMenu.ADMIN);
-    // await userListPage.adminSubMenu.openAdminSubMenu(A);
+    await userListPage.adminSubMenu.gotoJobItem(JobMenuItem.JOB_TITLES);
+    await addUserPage.pageHeader.title.waitFor({ state: "visible" });
+    expect(addUserPage.pageHeader.title).toHaveText("Job Titles");
   });
 });

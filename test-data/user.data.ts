@@ -1,0 +1,7 @@
+export const validAdminUser = {
+  role: "Admin",
+  employeeName: "John",
+  status: "Enabled",
+  username: "jackma",
+  password: "Test@123"
+} as const;
