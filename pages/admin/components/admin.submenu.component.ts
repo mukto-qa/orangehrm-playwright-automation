@@ -1,41 +1,16 @@
 import { Page } from "@playwright/test";
+import { AdminMenu } from "../../../domain/admin/admin-menu.enums";
+import { JobMenuItem } from "../../../domain/admin/job.enums";
 
 export class AdminSubMenuComponent {
-    readonly page: Page;
-    constructor(page: Page) {
-        this.page = page;
-    }
+  constructor(private readonly page: Page) {}
 
-    async openUserManagementDropdown(): Promise<void> {
-        await this.page.getByLabel('Topbar Menu').getByText('User Management').click();
-    }
+  async openAdminSubMenu(menu: AdminMenu): Promise<void> {
+    await this.page.getByRole("listitem", { name: menu }).click();
+  }
 
-    async openJobDropdown(): Promise<void> {
-        await this.page.getByLabel('Topbar Menu').getByText('User Management').click();
-    }
-
-    async openOrganizationDropdown(): Promise<void> {
-        await this.page.getByText('Organization').click();
-    }
-
-    async openQualificationsDropdown(): Promise<void> {
-        await this.page.getByText('Qualifications').click();
-    }
-
-    async goToNationalities(): Promise<void> {
-        await this.page.getByRole('link', { name: 'Nationalities' }).click();
-    }
-
-    async goToCorporateBranding(): Promise<void> {
-        await this.page.getByRole('link', { name: 'Corporate Branding' }).click();
-    }
-
-    async openConfiguration(): Promise<void> {
-        await this.page.getByText('Configuration').click();
-    }
-
-    async goToUsers(): Promise<void> {
-        this.openUserManagementDropdown();
-        await this.page.getByRole('menuitem', { name: 'Users' }).click();
-    }
+  async gotoJobItem(jobItem: JobMenuItem): Promise<void> {
+    await this.openAdminSubMenu(AdminMenu.JOB);
+    await this.page.getByRole("menuitem", { name: jobItem }).click();
+  }
 }

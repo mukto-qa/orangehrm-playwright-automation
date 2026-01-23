@@ -1,8 +1,7 @@
-import { SidebarMenu } from "../../constants/sidebar.constants";
-import {
-  ADD_USER_PAGE_CONSTANTS,
-  TOAST_MESSAGES,
-} from "../../constants/ui.constants";
+
+import { TOAST_MESSAGES } from "../../constants/common/toast.constants";
+import { ADD_USER_PAGE_CONSTANTS } from "../../constants/pages/add-user.page.constants";
+import { SidebarMenu } from "../../domain/navigation/sidebar-menu.enums";
 import { test, expect } from "../../fixtures/pages.fixture";
 import { generateAdminUser } from "../../utils/data-generator/adminUser.generator";
 
@@ -31,7 +30,7 @@ test.describe("TS_ADMIN_01 - Validate the working of Add User functionality", ()
     async ({ addUserPage }) => {
       await test.step("Verify Add User form header text", async () => {
         await expect(addUserPage.formHeader).toHaveText(
-          ADD_USER_PAGE_CONSTANTS.ADD_USER_FORM_HEADER,
+          ADD_USER_PAGE_CONSTANTS.FORM_HEADER,
         );
       });
     },
@@ -39,7 +38,7 @@ test.describe("TS_ADMIN_01 - Validate the working of Add User functionality", ()
 
   test(
     "TC_ADMIN_01_01 - Verify successful user creation with all mandatory fields",
-    { tag: "@smoke" },
+    { tag: "@smoke",  },
     async ({ addUserPage, userListPage }) => {
       const user = generateAdminUser();
 

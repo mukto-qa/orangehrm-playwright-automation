@@ -1,5 +1,5 @@
 import { ENV } from "../../config/env";
-import { DASHBOARD_PAGE_CONSTANTS } from "../../constants/ui.constants";
+import { DASHBOARD_PAGE_CONSTANTS } from "../../constants/pages/dashboard.page.constants";
 import { test as setup, expect } from "../../fixtures/pages.fixture";
 
 const authFilePath = ".auth/admin.json";
